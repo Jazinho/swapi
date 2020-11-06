@@ -31,6 +31,12 @@ public class PersonService {
         }
     }
 
+    public List<PersonDto> getPersonsByName(String name){
+        return personRepository.findByNameContainingIgnoreCase(name).stream()
+                .map(person -> mapPersonToDto(person))
+                .collect(Collectors.toList());
+    }
+
     private PersonDto mapPersonToDto(PersonEntity personEntity){
         PersonDto personDto = new PersonDto();
         personDto.setName(personEntity.getName());

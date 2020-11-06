@@ -24,4 +24,9 @@ public class PersonController {
         return personService.getPerson(id);
     }
 
+    @GetMapping(value = "/name/{filter}")
+    public List<PersonDto> getPersonsByName(@PathVariable(value = "filter") String filter){
+        return personService.getPersonsByName(filter);
+    }
+
 }
