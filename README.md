@@ -13,5 +13,5 @@ SW-API project, based on Star Wars API available [here](https://swapi.dev/api/pe
 
 Please, run the SW-API application and go to:
 
-`127.0.0.1/api/v1/swagger-ui.html`
+`http://127.0.0.1:8080/api/v1/swagger-ui.html`
 
