@@ -29,4 +29,9 @@ public class PersonController {
         return personService.getPersonsByName(filter);
     }
 
+    @PutMapping(value = "/import")
+    public PersonDto importPersonById(@RequestParam(value = "id") Long id){
+        return personService.importPersonById(id);
+    }
+
 }
