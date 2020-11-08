@@ -1,6 +1,10 @@
 package pl.starwars.swapi.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.starwars.swapi.dto.PersonDto;
 import pl.starwars.swapi.service.PersonService;
@@ -14,23 +18,39 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @GetMapping(value = "")
-    public List<PersonDto> getPersons(){
+    @ApiOperation(value = "Get all persons")
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<PersonDto> getPersons(){
         return personService.getAllPersons();
     }
 
-    @GetMapping(value = "/{id}")
-    public PersonDto getPerson(@PathVariable(name = "id") Long id){
+
+    @ApiOperation(value = "Get person by id")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "Person's id.")
+    })
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody PersonDto getPerson(@PathVariable(name = "id") Long id){
         return personService.getPerson(id);
     }
 
-    @GetMapping(value = "/name/{filter}")
-    public List<PersonDto> getPersonsByName(@PathVariable(value = "filter") String filter){
+
+    @ApiOperation(value = "Get persons by name")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "filter", value = "Case insensitive Person's name filter. Could be whole name or just a part of it.")
+    })
+    @GetMapping(value = "/name/{filter}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<PersonDto> getPersonsByName(@PathVariable(value = "filter") String filter){
         return personService.getPersonsByName(filter);
     }
 
-    @PutMapping(value = "/import")
-    public PersonDto importPersonById(@RequestParam(value = "id") Long id){
+
+    @ApiOperation(value = "Import and persist person from SW API")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "SW Person's id")
+    })
+    @PutMapping(value = "/import", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody PersonDto importPersonById(@RequestParam(value = "id") Long id){
         return personService.importPersonById(id);
     }
 
