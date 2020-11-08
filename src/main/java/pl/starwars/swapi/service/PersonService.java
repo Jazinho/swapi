@@ -29,33 +29,41 @@ public class PersonService {
     }
 
     public PersonDto getPerson(Long id){
-        Optional<PersonEntity> personEntity = personRepository.findById(id);
-        if(personEntity.isPresent()){
-            return mapPersonEntityToDto(personEntity.get());
-        } else {
-            return null;
+        if(id != null) {
+            Optional<PersonEntity> personEntity = personRepository.findById(id);
+            if (personEntity.isPresent()) {
+                return mapPersonEntityToDto(personEntity.get());
+            }
         }
+
+        return null;
     }
 
     public List<PersonDto> getPersonsByName(String name){
-        return personRepository.findByNameContainingIgnoreCase(name).stream()
-                .map(person -> mapPersonEntityToDto(person))
-                .collect(Collectors.toList());
+        if(name != null) {
+            return personRepository.findByNameContainingIgnoreCase(name).stream()
+                    .map(person -> mapPersonEntityToDto(person))
+                    .collect(Collectors.toList());
+        }
+
+        return null;
     }
 
     public PersonDto importPersonById(Long id){
-        SwPerson importedSwPerson = swClient.getPerson(id);
-        if(importedSwPerson != null){
-            PersonEntity personToSave = personRepository.findByName(importedSwPerson.getName());
-            if(personToSave != null){
-                personToSave.setName(importedSwPerson.getName());
-                personToSave.setMass(importedSwPerson.getMass());
-                personToSave.setHeight(importedSwPerson.getHeight());
-            } else {
-                personToSave = mapSwPersonToPersonEntity(importedSwPerson);
+        if(id != null) {
+            SwPerson importedSwPerson = swClient.getPerson(id);
+            if (importedSwPerson != null) {
+                PersonEntity personToSave = personRepository.findByName(importedSwPerson.getName());
+                if (personToSave != null) {
+                    personToSave.setName(importedSwPerson.getName());
+                    personToSave.setMass(importedSwPerson.getMass());
+                    personToSave.setHeight(importedSwPerson.getHeight());
+                } else {
+                    personToSave = mapSwPersonToPersonEntity(importedSwPerson);
+                }
+                PersonEntity savedPerson = personRepository.save(personToSave);
+                return mapPersonEntityToDto(savedPerson);
             }
-            PersonEntity savedPerson = personRepository.save(personToSave);
-            return mapPersonEntityToDto(savedPerson);
         }
 
         return null;
