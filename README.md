@@ -1,7 +1,15 @@
-## SW-API 
+# SW-API 
 SW-API project, based on Star Wars API available [here](https://swapi.dev/api/people/).
 
-#### API documentation
+### Technologies
+
+* Spring Boot 2+, Spring Web, Spring JPA
+* H2 In-memory DB
+* Apache HttpComponents
+* Swagger UI
+* JUnit
+
+### API documentation
 
 Please, run the SW-API application and go to:
 
