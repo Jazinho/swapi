@@ -28,8 +28,9 @@ public class SwClientImpl implements SwClient {
         HttpGet httpGet = new HttpGet(swapiPersonBaseUri + "/" + id);
         try {
             HttpResponse httpResponse = httpClient.execute(httpGet);
-            SwPersonImpl swPerson = mapper.readValue(httpResponse.getEntity().getContent(), SwPersonImpl.class);
-            return swPerson;
+            if(httpResponse.getStatusLine().getStatusCode() == 200){
+                return mapper.readValue(httpResponse.getEntity().getContent(), SwPersonImpl.class);
+            }
         } catch (IOException e){
             System.out.println("IOException " + e.getMessage());
         }

@@ -9,6 +9,7 @@ import pl.starwars.swapi.dao.repository.PersonRepository;
 import pl.starwars.swapi.dto.PersonDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,9 +29,9 @@ public class PersonService {
     }
 
     public PersonDto getPerson(Long id){
-        PersonEntity personEntity = personRepository.getOne(id);
-        if(personEntity != null){
-            return mapPersonEntityToDto(personEntity);
+        Optional<PersonEntity> personEntity = personRepository.findById(id);
+        if(personEntity.isPresent()){
+            return mapPersonEntityToDto(personEntity.get());
         } else {
             return null;
         }

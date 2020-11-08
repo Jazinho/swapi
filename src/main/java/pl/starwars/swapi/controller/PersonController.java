@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.starwars.swapi.dto.PersonDto;
 import pl.starwars.swapi.service.PersonService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -30,8 +31,13 @@ public class PersonController {
             @ApiImplicitParam(name = "id", value = "Person's id.")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody PersonDto getPerson(@PathVariable(name = "id") Long id){
-        return personService.getPerson(id);
+    public @ResponseBody PersonDto getPerson(@PathVariable(name = "id") Long id, HttpServletResponse response){
+        PersonDto personDto = personService.getPerson(id);
+        if(personDto == null){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+        return personDto;
     }
 
 
@@ -50,8 +56,13 @@ public class PersonController {
             @ApiImplicitParam(name = "id", value = "SW Person's id")
     })
     @PutMapping(value = "/import", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody PersonDto importPersonById(@RequestParam(value = "id") Long id){
-        return personService.importPersonById(id);
+    public @ResponseBody PersonDto importPersonById(@RequestParam(value = "id") Long id, HttpServletResponse response){
+        PersonDto personDto = personService.importPersonById(id);
+        if(personDto == null){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+        return personDto;
     }
 
 }
