@@ -1,6 +1,5 @@
 package pl.starwars.swapi.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.starwars.swapi.client.SwClient;
 import pl.starwars.swapi.client.model.SwPerson;
@@ -15,11 +14,14 @@ import java.util.stream.Collectors;
 @Service
 public class PersonService {
 
-    @Autowired
-    PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
-    @Autowired
-    SwClient swClient;
+    private final SwClient swClient;
+
+    public PersonService(PersonRepository personRepository, SwClient swClient){
+        this.personRepository = personRepository;
+        this.swClient = swClient;
+    }
 
 
     public List<PersonDto> getAllPersons(){

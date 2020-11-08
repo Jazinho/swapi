@@ -15,10 +15,13 @@ import java.io.IOException;
 @Service
 public class SwClientImpl implements SwClient {
 
-    @Autowired
-    HttpClient httpClient;
+    private final HttpClient httpClient;
+    private final ObjectMapper mapper;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    public SwClientImpl(HttpClient httpClient){
+        this.httpClient = httpClient;
+        this.mapper = new ObjectMapper();
+    }
 
     @Value("${swapi.person.base.url}")
     private String swapiPersonBaseUri;

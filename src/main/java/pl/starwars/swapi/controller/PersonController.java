@@ -3,7 +3,6 @@ package pl.starwars.swapi.controller;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.starwars.swapi.dto.PersonDto;
@@ -16,8 +15,11 @@ import java.util.List;
 @RequestMapping(value = "persons")
 public class PersonController {
 
-    @Autowired
-    PersonService personService;
+    private final PersonService personService;
+
+    public PersonController(PersonService personService){
+        this.personService = personService;
+    }
 
     @ApiOperation(value = "Get all persons")
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
